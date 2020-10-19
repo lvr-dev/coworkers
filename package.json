@@ -7,7 +7,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --runInBand",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -28,27 +30,74 @@
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
+    "@angular-builders/jest": "^10.0.1",
     "@angular-devkit/build-angular": "~0.1000.0",
     "@angular/cli": "~10.0.5",
     "@angular/compiler": "~10.0.0",
     "@angular/compiler-cli": "~10.0.0",
     "@angular/language-service": "~10.0.0",
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-typescript": "^7.10.4",
     "@ionic/angular-toolkit": "^2.3.0",
-    "@types/node": "^12.11.1",
-    "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
+    "babel-test": "^0.2.3",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~3.3.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
+    "jest": "^26.5.3",
+    "jest-createspyobj": "^1.2.2",
+    "jest-preset-angular": "^7.1.1",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/jest-config/setup.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/dist/",
+      "<rootDir>/storybook-static/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/jest-config/",
+      "/node_modules/"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/jest-preset-angular/AngularSnapshotSerializer.js",
+      "<rootDir>/node_modules/jest-preset-angular/HTMLCommentSerializer.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/src/jest-config/styleMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/jest-config/fileMock.js"
+    },
+    "transform": {
+      "^.+\\.(ts|html)$": "ts-jest",
+      "^.+\\.js$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!(@ionic-native|ionic-native)/)"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "<rootDir>/tsconfig.spec.json"
+      }
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node",
+      ".html"
+    ]
+  }
 }

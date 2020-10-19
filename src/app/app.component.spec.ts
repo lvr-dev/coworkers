@@ -9,16 +9,17 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
 
-  let statusBarSpy;
-  let splashScreenSpy;
+  let statusBarSpy: Partial<StatusBar> ;
+  let splashScreenSpy: Partial<SplashScreen>
+  let platformSpy: Partial<Platform>;
   let platformReadySpy;
-  let platformSpy;
 
   beforeEach(async(() => {
-    statusBarSpy = jasmine.createSpyObj('StatusBar', ['styleDefault']);
-    splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
+    statusBarSpy = { styleDefault: jest.fn()};
+    splashScreenSpy = { hide: jest.fn()};
+
     platformReadySpy = Promise.resolve();
-    platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
+    platformSpy = { ready: jest.fn(() => platformReadySpy)};
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
